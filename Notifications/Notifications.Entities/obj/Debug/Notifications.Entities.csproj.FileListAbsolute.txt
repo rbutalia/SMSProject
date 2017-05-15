@@ -1,0 +1,17 @@
+C:\code\SMSProject\Notifications\Notifications.Entities\bin\Debug\Notifications.Entities.dll.config
+C:\code\SMSProject\Notifications\Notifications.Entities\bin\Debug\Notifications.Entities.dll
+C:\code\SMSProject\Notifications\Notifications.Entities\bin\Debug\Notifications.Entities.pdb
+C:\code\SMSProject\Notifications\Notifications.Entities\bin\Debug\EntityFramework.dll
+C:\code\SMSProject\Notifications\Notifications.Entities\bin\Debug\EntityFramework.SqlServer.dll
+C:\code\SMSProject\Notifications\Notifications.Entities\bin\Debug\Repository.Pattern.dll
+C:\code\SMSProject\Notifications\Notifications.Entities\bin\Debug\Repository.Pattern.Ef6.dll
+C:\code\SMSProject\Notifications\Notifications.Entities\bin\Debug\LinqKit.dll
+C:\code\SMSProject\Notifications\Notifications.Entities\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\code\SMSProject\Notifications\Notifications.Entities\bin\Debug\Repository.Pattern.Ef6.pdb
+C:\code\SMSProject\Notifications\Notifications.Entities\bin\Debug\Repository.Pattern.pdb
+C:\code\SMSProject\Notifications\Notifications.Entities\bin\Debug\EntityFramework.xml
+C:\code\SMSProject\Notifications\Notifications.Entities\bin\Debug\EntityFramework.SqlServer.xml
+C:\code\SMSProject\Notifications\Notifications.Entities\bin\Debug\LinqKit.xml
+C:\code\SMSProject\Notifications\Notifications.Entities\obj\Debug\Notifications.Entities.csprojResolveAssemblyReference.cache
+C:\code\SMSProject\Notifications\Notifications.Entities\obj\Debug\Notifications.Entities.dll
+C:\code\SMSProject\Notifications\Notifications.Entities\obj\Debug\Notifications.Entities.pdb
