@@ -9,9 +9,8 @@ namespace Notifications.Services
 {
     public interface ICustomerService : IService<Customer>
     {
-        void CustomerOrderTotalByYear(int customerId, int year);
+        decimal CustomerOrderTotalByYear(int customerId, int year);
         IEnumerable<Customer> CustomersByCompanyId(int companyId);
-        //IEnumerable<CustomerOrder> GetCustomerOrder(string country);
     }
 
     /// <summary>
@@ -27,9 +26,9 @@ namespace Notifications.Services
             _repository = repository;
         }
 
-        public void CustomerOrderTotalByYear(int customerId, int year)
+        public decimal CustomerOrderTotalByYear(int customerId, int year)
         {
-            //return _repository.GetCustomerOrderTotalByYear(customerId, year);
+            return _repository.GetCustomerOrderTotalByYear(customerId, year);
         }
 
         public IEnumerable<Customer> CustomersByCompanyId(int companyId)

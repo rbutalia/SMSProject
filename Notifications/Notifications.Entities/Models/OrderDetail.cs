@@ -1,4 +1,5 @@
 ﻿
+using System;
 using Repository.Pattern.Ef6;
 
 namespace Notifications.Entities.Models
@@ -12,6 +13,10 @@ namespace Notifications.Entities.Models
         public float Discount { get; set; }
         public virtual Order Order { get; set; }
         public virtual MenuItem Dish { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string ModifiedBy { get; set; }
+        public DateTime ModifiedDate { get; set; }
     }
 }
 

@@ -53,6 +53,7 @@
     <Compile Include="Mappings\MenuConfig.cs" />
     <Compile Include="Mappings\MenuItemConfig.cs" />
     <Compile Include="Mappings\SubscriberConfig.cs" />
+    <Compile Include="Mappings\WorkFlowStepConfig.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\MenuItem.cs" />
     <Compile Include="Models\Subscriber.cs" />
+    <Compile Include="Models\WorkflowStep.cs" />
     <Compile Include="NotificationsContext.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />

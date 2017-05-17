@@ -169,5 +169,58 @@ namespace Northwind.Test.IntegrationTests
             _companyRepository.Delete(newCompany.CompanyID);
             _unitOfWork.SaveChanges();
         }
+
+        [TestMethod]
+        public void InsertNewCompany()
+        {
+            var newCompany = new Company { CompanyName = "DoughZone", TextIdentifier = "LUNCH", ContactPersonName = "Edwin", CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
+
+            var steps = new[]
+            {
+                new WorkflowStep { CompanyID = newCompany.CompanyID, StepName = "Step 1", Description="Description for Step 1", RegularExpression = "^[a-zA-Z]+$", CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added},
+                new WorkflowStep { CompanyID = newCompany.CompanyID, StepName = "Step 2", Description="Description for Step 2", RegularExpression = "^([0-9]+,)*[0-9]+$", CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added}
+            };
+
+            try
+            {
+                foreach (var step in steps)
+                {
+                    newCompany.WorkFlowSteps.Add(step);
+                }
+                _companyRepository.InsertOrUpdateGraph(newCompany);
+                _unitOfWork.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                var sb = new StringBuilder();
+
+                foreach (var failure in ex.EntityValidationErrors)
+                {
+                    sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+
+                    foreach (var error in failure.ValidationErrors)
+                    {
+                        sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                        sb.AppendLine();
+                    }
+                }
+
+                Debug.WriteLine(sb.ToString());
+                TestContext.WriteLine(sb.ToString());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                TestContext.WriteLine(ex.Message);
+            }
+
+            foreach (var step in newCompany.WorkFlowSteps)
+            {
+                step.ObjectState = ObjectState.Deleted;
+            }
+            newCompany.ObjectState = ObjectState.Deleted;
+            _companyRepository.Delete(newCompany.CompanyID);
+            _unitOfWork.SaveChanges();
+        }
     }
 }

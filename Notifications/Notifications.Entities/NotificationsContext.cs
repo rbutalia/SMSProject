@@ -8,15 +8,11 @@ namespace Notifications.Entities
 {
     public partial class NotificationsContext: DataContext
     {
-        static NotificationsContext()
-        {
-            //Database.SetInitializer<NotificationsContext>(null);
+        static NotificationsContext(){
             Database.SetInitializer<NotificationsContext>(new DropCreateDatabaseIfModelChanges<NotificationsContext>());
         }
 
-        public NotificationsContext(): base("Name=NotificationsContext") {
-           
-        }
+        public NotificationsContext(): base("Name=NotificationsContext"){ }
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -28,6 +24,7 @@ namespace Notifications.Entities
         public DbSet<Subscriber> Subscribers { get; set; }
         public DbSet<Menu> Menus { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<WorkflowStep> WorkflowSteps { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -42,19 +39,8 @@ namespace Notifications.Entities
             modelBuilder.Configurations.Add(new SubscriberConfig());
             modelBuilder.Configurations.Add(new MenuConfig());
             modelBuilder.Configurations.Add(new MenuItemConfig());
-
+            modelBuilder.Configurations.Add(new WorkflowStepConfig());
             base.OnModelCreating(modelBuilder);
         }
-
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<JohnsChildTable>()
-        //                .HasRequired(t => t.JohnsParentTable)
-        //                .WithMany(t => t.JohnsChildTables)
-        //                .HasForeignKey(d => d.JohnsParentTableId)
-        //                .WillCascadeOnDelete(true);
-
-        //    base.OnModelCreating(modelBuilder);
-        //}
     }
 }

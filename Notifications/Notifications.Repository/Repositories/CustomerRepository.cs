@@ -9,15 +9,15 @@ namespace Notifications.Repository.Repositories
 {
     public static class CustomerRepository
     {
-        public static void GetCustomerOrderTotalByYear(this IRepository<Customer> repository, int customerID, int year)
+        public static decimal GetCustomerOrderTotalByYear(this IRepository<Customer> repository, int customerID, int year)
         {
-            //return repository
-            //        .Queryable()
-            //        .Where(c => c.CustomerID == customerID)
-            //        .SelectMany(c => c.Orders.Where(o => o.OrderDate != null && o.OrderDate.Value.Year == year))
-            //        .SelectMany(c => c.OrderDetails)
-            //        .Select(c => c.Quantity * c.UnitPrice)
-            //        .Sum();
+            return repository
+                    .Queryable()
+                    .Where(c => c.CustomerID == customerID)
+                    .SelectMany(c => c.Orders.Where(o => o.OrderDate != null && o.OrderDate.Year == year))
+                    .SelectMany(c => c.OrderDetails)
+                    .Select(c => c.Quantity * c.UnitPrice)
+                    .Sum();
         }
 
         public static IEnumerable<Customer> CustomersByCompanyId(this IRepositoryAsync<Customer> repository, int companyId)

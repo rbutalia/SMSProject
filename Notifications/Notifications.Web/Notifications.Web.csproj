@@ -179,6 +179,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\MessageCreator.cs" />
+    <Compile Include="Helpers\OrderCreator.cs" />
     <Compile Include="Models\NotificationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

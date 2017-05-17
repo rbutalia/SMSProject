@@ -16,11 +16,11 @@ namespace Notifications.Entities.Models
         public int OrderID { get; set; }
         public int CustomerID { get; set; }
         public int? EmployeeID { get; set; }
-        public DateTime? OrderDate { get; set; }
+        public DateTime OrderDate { get; set; }
         public DateTime? RequiredDate { get; set; }
-        public Nullable<DateTime> ShippedDate { get; set; }
-        public Nullable<int> ShipVia { get; set; }
-        public Nullable<decimal> Freight { get; set; }
+        public DateTime? ShippedDate { get; set; }
+        public int? ShipVia { get; set; }
+        public decimal? Freight { get; set; }
         public string ShipName { get; set; }
         public string ShipAddress { get; set; }
         public string ShipCity { get; set; }
@@ -31,5 +31,9 @@ namespace Notifications.Entities.Models
        // public virtual Employee Employee { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual Shipper Shipper { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string ModifiedBy { get; set; }
+        public DateTime ModifiedDate { get; set; }
     }
 }

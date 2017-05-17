@@ -47,7 +47,7 @@ namespace Northwind.Test.IntegrationTests
 
                     unitOfWork.Commit();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     unitOfWork.Rollback();
                 }

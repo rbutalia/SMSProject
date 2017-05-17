@@ -10,6 +10,7 @@ namespace Notifications.Services
     public interface IMenuService : IService<Menu>
     {
         string GetMenuByCompanyID(int companyID);
+        string GetMenuByCompanyIdentifier(string textIdentifier);
     }
 
     /// <summary>
@@ -30,6 +31,18 @@ namespace Notifications.Services
             var thisMenu = _repository.GetMenuByCompanyID(companyID);
             if (thisMenu == null) return string.Empty;
             foreach(MenuItem item in thisMenu.MenuItems)
+            {
+                menuBuilder.AppendLine(string.Format("{0}: {1}", item.MenuID, item.ItemName));
+            }
+            return menuBuilder.ToString();
+        }
+
+        public string GetMenuByCompanyIdentifier(string textIdentifier)
+        {
+            var menuBuilder = new StringBuilder("Please reply with your choice, as under:");
+            var thisMenu = _repository.GetMenuByCompanyIdentifier(textIdentifier);
+            if (thisMenu == null) return string.Empty;
+            foreach (MenuItem item in thisMenu.MenuItems)
             {
                 menuBuilder.AppendLine(string.Format("{0}: {1}", item.MenuID, item.ItemName));
             }

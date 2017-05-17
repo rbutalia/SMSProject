@@ -10,12 +10,14 @@ namespace Notifications.Entities.Models
         public Company()
         {
             this.Menus = new List<Menu>();
+            this.WorkFlowSteps = new List<WorkflowStep>();
         }
         public int CompanyID { get; set; }
         public string TextIdentifier { get; set; }
         public string CompanyName { get; set; }
         public string ContactPersonName { get; set; }
         public virtual ICollection<Menu> Menus { get; set; }
+        public virtual ICollection<WorkflowStep> WorkFlowSteps { get; set; }
         public string CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public string ModifiedBy { get; set; }

@@ -39,18 +39,22 @@ namespace Notifications.Entities.Mappings
             this.ToTable("Orders");
             this.Property(t => t.OrderID).HasColumnName("OrderID");
             this.Property(t => t.CustomerID).HasColumnName("CustomerID");
-            this.Property(t => t.EmployeeID).HasColumnName("EmployeeID");
+            this.Property(t => t.EmployeeID).HasColumnName("EmployeeID").IsOptional();
             this.Property(t => t.OrderDate).HasColumnName("OrderDate");
-            this.Property(t => t.RequiredDate).HasColumnName("RequiredDate");
-            this.Property(t => t.ShippedDate).HasColumnName("ShippedDate");
-            this.Property(t => t.ShipVia).HasColumnName("ShipVia");
-            this.Property(t => t.Freight).HasColumnName("Freight");
+            this.Property(t => t.RequiredDate).HasColumnName("RequiredDate").IsOptional();
+            this.Property(t => t.ShippedDate).HasColumnName("ShippedDate").IsOptional();
+            this.Property(t => t.ShipVia).HasColumnName("ShipVia").IsOptional();
+            this.Property(t => t.Freight).HasColumnName("Freight").IsOptional();
             this.Property(t => t.ShipName).HasColumnName("ShipName");
             this.Property(t => t.ShipAddress).HasColumnName("ShipAddress");
             this.Property(t => t.ShipCity).HasColumnName("ShipCity");
             this.Property(t => t.ShipRegion).HasColumnName("ShipRegion");
             this.Property(t => t.ShipPostalCode).HasColumnName("ShipPostalCode");
             this.Property(t => t.ShipCountry).HasColumnName("ShipCountry");
+            this.Property(t => t.CreatedBy).HasColumnName("CreatedBy");
+            this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
+            this.Property(t => t.ModifiedBy).HasColumnName("ModifiedBy");
+            this.Property(t => t.ModifiedDate).HasColumnName("ModifiedDate");
 
             // Relationships
             this.HasRequired(t => t.Customer)

@@ -12,50 +12,26 @@ namespace Notifications.Helpers
     public class MessageCreator
     {
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
+        private readonly ICustomerService _customerService;
         private readonly ISubscriberService _subscriptionService;
-        //private readonly IMenuService _menuService;
+        private readonly IMenuService _menuService;
 
         private const string SUBSCRIBE = "subscribe";
         private const string UNSUBSCRIBE = "unsubscribe";
         private const string SYS_USER = "SYSTEM";
 
-        public MessageCreator(ISubscriberService subscriptionService, IUnitOfWorkAsync unitOfWorkAsync)//, IMenuService menuService)
+        public MessageCreator(IUnitOfWorkAsync unitOfWorkAsync, ICustomerService customerService, ISubscriberService subscriptionService, IMenuService menuService)
         {
             _unitOfWorkAsync = unitOfWorkAsync;
             _subscriptionService = subscriptionService;
-           // _menuService = menuService;
+            _customerService = customerService;
+            _menuService = menuService;
         }
 
         public async Task<string> Create(string phoneNumber, string message)
         {
-            var subscriber = _subscriptionService.FindByPhoneNumber(phoneNumber);
-            if (subscriber == null)
-            {
-                subscriber = new Subscriber
-                {
-                    PhoneNumber = phoneNumber,
-                    IsActive = true,
-                    CreatedBy = SYS_USER,
-                    CreatedDate = DateTime.Now,
-                    ModifiedBy = SYS_USER,
-                    ModifiedDate = DateTime.Now,
-                    ObjectState = ObjectState.Added
-                };
-                _subscriptionService.Insert(subscriber);
-                try
-                {
-                    await _unitOfWorkAsync.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    //if (!CustomerExists(key))
-                    //{
-                    //    return NotFound();
-                    //}
-                    throw;
-                }
-            }
-            return await CreateOutputMessage(subscriber, message.ToLower());
+            var subscriber = new Subscriber();
+            return await CreateOutputMessage(subscriber, message);
 
         }
 
@@ -67,7 +43,7 @@ namespace Notifications.Helpers
                 return "Sorry, we don't recognize that command. Available commands are: 'add' or 'remove'.";
             }
 
-            switch(message)
+            switch(message.ToLower())
             {
                 case SUBSCRIBE:
                     subscriber.Subscribed = true;
@@ -102,7 +78,7 @@ namespace Notifications.Helpers
                     returnMessage = "You have unsubscribed from notifications. Test 'add' to start receiving updates again";
                     break;
                 default:
-                    returnMessage = "";// _menuService.GetMenuByCompanyID(1);
+                    returnMessage = _menuService.GetMenuByCompanyIdentifier(message);
                     break;
             }
             return returnMessage;

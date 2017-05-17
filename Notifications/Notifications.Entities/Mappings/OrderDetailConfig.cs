@@ -26,6 +26,10 @@ namespace Notifications.Entities.Mappings
             this.Property(t => t.UnitPrice).HasColumnName("UnitPrice");
             this.Property(t => t.Quantity).HasColumnName("Quantity");
             this.Property(t => t.Discount).HasColumnName("Discount");
+            this.Property(t => t.CreatedBy).HasColumnName("CreatedBy");
+            this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
+            this.Property(t => t.ModifiedBy).HasColumnName("ModifiedBy");
+            this.Property(t => t.ModifiedDate).HasColumnName("ModifiedDate");
 
             // Relationships
             this.HasRequired(t => t.Order)
