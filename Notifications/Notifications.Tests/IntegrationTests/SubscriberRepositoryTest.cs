@@ -40,7 +40,7 @@ namespace Notifications.Tests.IntegrationTests
                 IRepositoryAsync<Customer> customerRepository = new Repository<Customer>(context, unitOfWork);
                 IRepositoryAsync<Company> companyRepository = new Repository<Company>(context, unitOfWork);
 
-                var newCompany = new Company { CompanyName = "DoughZone", ContactPersonName = "Edwin", ObjectState = ObjectState.Added };
+                var newCompany = new Company { CompanyName = "DoughZone", TextIdentifier="LUNCH", ContactPersonName = "Edwin", CreatedBy = SYS_USER, CreatedDate = DateTime.Now, ModifiedBy = SYS_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
                 var newCustomers = new[]
                 {
                     new Customer { CompanyID = newCompany.CompanyID, ContactName = "Randeep Butalia", StreetAddress_Line1="Address Line 1", ContactTitle="Mr.", StreetAddress_Line2="", City="Ft. Erie", Region="Ontario", Country="CA", PostalCode="L2A 1P7", Phone="+17165414925", Fax="+19052324584", ObjectState = ObjectState.Added },
@@ -67,7 +67,7 @@ namespace Notifications.Tests.IntegrationTests
                     try
                     {
                         companyRepository.Insert(newCompany);
-                        customerRepository.InsertGraphRange(newCustomers);
+                        //customerRepository.InsertGraphRange(newCustomers);
                         //subscriberRepository.InsertRange(newSubscribers);
                         unitOfWork.SaveChanges();
                     }
@@ -96,7 +96,7 @@ namespace Notifications.Tests.IntegrationTests
                     }
                 }
 
-                var insertedSubscriber = subscriberRepository.Query(x => x.CustomerId == 1).Select();
+                //var insertedSubscriber = subscriberRepository.Query(x => x.CustomerId == 1).Select();
                 //Assert.IsTrue(insertedSubscriber.Cu == "One");
             }
         }

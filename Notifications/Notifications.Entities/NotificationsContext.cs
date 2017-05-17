@@ -42,6 +42,8 @@ namespace Notifications.Entities
             modelBuilder.Configurations.Add(new SubscriberConfig());
             modelBuilder.Configurations.Add(new MenuConfig());
             modelBuilder.Configurations.Add(new MenuItemConfig());
+
+            base.OnModelCreating(modelBuilder);
         }
 
         //protected override void OnModelCreating(DbModelBuilder modelBuilder)

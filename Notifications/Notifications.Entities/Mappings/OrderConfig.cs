@@ -53,15 +53,13 @@ namespace Notifications.Entities.Mappings
             this.Property(t => t.ShipCountry).HasColumnName("ShipCountry");
 
             // Relationships
-            //this.HasOptional(t => t.Customer)
-            //    .WithMany(t => t.Orders)
-            //    .HasForeignKey(d => d.CustomerID);
-            
+            this.HasRequired(t => t.Customer)
+                .WithMany(t => t.Orders)
+                .HasForeignKey(d => d.CustomerID).WillCascadeOnDelete(false);
             
             //this.HasOptional(t => t.Employee)
             //    .WithMany(t => t.Orders)
             //    .HasForeignKey(d => d.EmployeeID);
-
 
             this.HasOptional(t => t.Shipper)
                 .WithMany(t => t.Orders)

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using Repository.Pattern.Ef6;
+using System.Collections.Generic;
 
 namespace Notifications.Entities.Models
 {
@@ -8,7 +9,7 @@ namespace Notifications.Entities.Models
     {
         public Customer()
         {
-            //this.Orders = new List<Order>();
+            this.Orders = new List<Order>();
             //this.CustomerDemographics = new List<CustomerDemographic>();
         }
 
@@ -29,7 +30,7 @@ namespace Notifications.Entities.Models
         public DateTime CreatedDate { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime ModifiedDate { get; set; }
-        //public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
         //public virtual ICollection<CustomerDemographic> CustomerDemographics { get; set; }
     }
 }

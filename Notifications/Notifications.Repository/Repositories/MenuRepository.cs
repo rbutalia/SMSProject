@@ -13,5 +13,12 @@ namespace Notifications.Repository.Repositories
                         .Queryable()
                         .Where(x => x.CompanyID == companyID && x.IsActive).SingleOrDefault();
         }
+
+        public static Menu GetMenuByCompanyIdentifier(this IRepositoryAsync<Menu> repository, string textIdentifier)
+        {
+            return repository
+                    .Queryable()
+                    .Where(x => x.Company.TextIdentifier.ToUpper().Equals(textIdentifier) && x.IsActive).SingleOrDefault();
+        }
     }
 }

@@ -27,7 +27,7 @@ namespace Northwind.Test.IntegrationTests
         IRepositoryAsync<Product> _productRepository;
         IRepositoryAsync<Category> _categoryRepository;
         IRepositoryAsync<Menu> _menuRepository;
-        //IRepositoryAsync<MenuItem> _categoryRepository;
+        IRepositoryAsync<Company> _companyRepository;
 
         [TestInitialize]
         public void Initialize()
@@ -38,6 +38,7 @@ namespace Northwind.Test.IntegrationTests
             _productRepository = new Repository<Product>(_context, _unitOfWork);
             _categoryRepository = new Repository<Category>(_context, _unitOfWork);
             _menuRepository = new Repository<Menu>(_context, _unitOfWork);
+            _companyRepository = new Repository<Company>(_context, _unitOfWork);
         }
 
         [TestCleanup]
@@ -46,6 +47,7 @@ namespace Northwind.Test.IntegrationTests
             _menuRepository = null;
             _categoryRepository = null;
             _productRepository = null;
+            _companyRepository = null;
             _unitOfWork = null;
             _context = null;
         }
@@ -109,7 +111,8 @@ namespace Northwind.Test.IntegrationTests
         [TestMethod]
         public void InsertMenuItems()
         {
-            var menu1 = new Menu { IsActive = true, CompanyID = TEST_COMPANY, MenuName = "Menu For DoughZone", CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
+            var newCompany = new Company { CompanyName = "DoughZone", TextIdentifier = "LUNCH", ContactPersonName = "Edwin", CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
+            var menu1 = new Menu { IsActive = true, CompanyID = newCompany.CompanyID, MenuName = "Menu For DoughZone", CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
 
             var menuItems = new[]
             {
@@ -122,11 +125,14 @@ namespace Northwind.Test.IntegrationTests
 
             try
             {
+                _companyRepository.Insert(newCompany);
+                //_unitOfWork.SaveChanges();
                 foreach (var item in menuItems)
                 {
                     menu1.MenuItems.Add(item);
                 }
-                _menuRepository.InsertOrUpdateGraph(menu1);
+                newCompany.Menus.Add(menu1);
+                _companyRepository.InsertOrUpdateGraph(newCompany);
                 _unitOfWork.SaveChanges();
             }
             catch (DbEntityValidationException ex)
@@ -158,7 +164,9 @@ namespace Northwind.Test.IntegrationTests
                 item.ObjectState = ObjectState.Deleted;
             }
             menu1.ObjectState = ObjectState.Deleted;
-            _menuRepository.Delete(menu1.MenuID); 
+            newCompany.ObjectState = ObjectState.Deleted;
+            _menuRepository.Delete(menu1.MenuID);
+            _companyRepository.Delete(newCompany.CompanyID);
             _unitOfWork.SaveChanges();
         }
     }

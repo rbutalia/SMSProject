@@ -14,6 +14,7 @@ namespace Notifications.Entities.Models
         public int MenuID { get; set; }
         public string MenuName { get; set; }
         public int CompanyID { get; set; }
+        public virtual Company Company { get; set; }
         public virtual ICollection<MenuItem> MenuItems { get; set; }
         public bool IsActive { get; set; }
         public string CreatedBy { get; set; }

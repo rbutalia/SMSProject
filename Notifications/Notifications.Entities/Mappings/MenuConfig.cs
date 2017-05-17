@@ -35,6 +35,9 @@ namespace Notifications.Entities.Mappings
             this.Property(t => t.ModifiedBy).HasColumnName("ModifiedBy");
             this.Property(t => t.ModifiedDate).HasColumnName("ModifiedDate");
 
+            this.HasRequired(t => t.Company)
+                .WithMany(t => t.Menus)
+                .HasForeignKey(d => d.CompanyID);
 
         }
     }
