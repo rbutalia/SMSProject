@@ -31,7 +31,7 @@ namespace Notifications.Tests.UnitTests.Repository
             using (IDataContextAsync notificationsFakeContext = new NotificationsFakeContext())
             using (IUnitOfWorkAsync unitOfWork = new UnitOfWork(notificationsFakeContext))
             {
-                unitOfWork.Repository<Subscriber>().Insert(new Subscriber { SubscriberID = 1, CustomerId = 1, PhoneNumber = "+17165414925", IsActive = true, Subscribed=true, CreatedOn=DateTime.Now, UpdatedOn=DateTime.Now, ObjectState = ObjectState.Added });
+                unitOfWork.Repository<Subscriber>().Insert(new Subscriber { SubscriberID = 1, CustomerId = 1, PhoneNumber = "+17165414925", IsActive = true, Subscribed=true, CreatedDate=DateTime.Now, ModifiedDate=DateTime.Now, ObjectState = ObjectState.Added });
                 unitOfWork.SaveChanges();
                 unitOfWork.Repository<Subscriber>().Delete(1);
                 unitOfWork.SaveChanges();

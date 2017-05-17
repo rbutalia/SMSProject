@@ -17,6 +17,7 @@ namespace Notifications.Tests.IntegrationTests
     public class SubscriberRepositoryTest
     {
         public TestContext TestContext { get; set; }
+        private const string SYS_USER = "TEST";
 
         [TestInitialize]
         public void Initialize()
@@ -54,8 +55,8 @@ namespace Notifications.Tests.IntegrationTests
 
                 var newSubscribers = new[]
                 {
-                    new Subscriber {CustomerId = 3, PhoneNumber = "+17165414925", IsActive = true, Subscribed=true, CreatedOn=DateTime.Now, UpdatedOn=DateTime.Now, ObjectState = ObjectState.Added },
-                    new Subscriber {CustomerId = 4, PhoneNumber = "+16472422345", IsActive = true, Subscribed=true, CreatedOn=DateTime.Now, UpdatedOn=DateTime.Now, ObjectState = ObjectState.Added }
+                    new Subscriber {CustomerId = 3, PhoneNumber = "+17165414925", IsActive = true, Subscribed=true, CreatedBy = SYS_USER, CreatedDate=DateTime.Now, ModifiedBy=SYS_USER, ModifiedDate=DateTime.Now, ObjectState = ObjectState.Added },
+                    new Subscriber {CustomerId = 4, PhoneNumber = "+16472422345", IsActive = true, Subscribed=true, CreatedBy = SYS_USER, CreatedDate=DateTime.Now, ModifiedBy = SYS_USER, ModifiedDate=DateTime.Now, ObjectState = ObjectState.Added }
                     //new Product {ProductName = "Three", Discontinued = true, ObjectState = ObjectState.Added},
                     //new Product {ProductName = "Four", Discontinued = true, ObjectState = ObjectState.Added},
                     //new Product {ProductName = "Five", Discontinued = true, ObjectState = ObjectState.Added}

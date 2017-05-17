@@ -38,7 +38,7 @@ namespace Notifications.Entities.Mappings
             this.Property(t => t.Discontinued).HasColumnName("Discontinued");
 
             // Relationships
-            this.HasOptional(t => t.Category)
+            this.HasRequired(t => t.Category)
                 .WithMany(t => t.Products)
                 .HasForeignKey(d => d.CategoryID);
             this.HasOptional(t => t.Supplier)

@@ -57,12 +57,12 @@ namespace Notifications.Tests.UnitTests.Fake
     {
         public override OrderDetail Find(params object[] keyValues)
         {
-            return this.SingleOrDefault(t => t.OrderID == (int)keyValues[0] && t.ProductID == (int)keyValues[1]);
+            return this.SingleOrDefault(t => t.OrderID == (int)keyValues[0] && t.MenuItemID == (int)keyValues[1]);
         }
 
         public override Task<OrderDetail> FindAsync(CancellationToken cancellationToken, params object[] keyValues)
         {
-            return new Task<OrderDetail>(() => this.SingleOrDefault(t => t.OrderID == (int)keyValues[0] && t.ProductID == (int)keyValues[1]));
+            return new Task<OrderDetail>(() => this.SingleOrDefault(t => t.OrderID == (int)keyValues[0] && t.MenuItemID == (int)keyValues[1]));
         }
     }
 

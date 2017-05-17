@@ -37,10 +37,10 @@ namespace Notifications.Entities.Mappings
 
             // Relationships
 
-            //this.HasOptional(t => t.Menu)
-            //    .WithMany(t => t.MenuItems)
-            //    .HasForeignKey(d => d.MenuID);
-            
+            this.HasRequired(t => t.Menu)
+                .WithMany(t => t.MenuItems)
+                .HasForeignKey(d => d.MenuID).WillCascadeOnDelete(true);
+
         }
     }
 }

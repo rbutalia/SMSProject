@@ -26,6 +26,10 @@ namespace Notifications.Entities.Mappings
             this.Property(t => t.CompanyID).HasColumnName("CompanyID");
             this.Property(t => t.CompanyName).HasColumnName("CompanyName");
             this.Property(t => t.ContactPersonName).HasColumnName("ContactPersonName");
+            this.Property(t => t.CreatedBy).HasColumnName("CreatedBy");
+            this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
+            this.Property(t => t.ModifiedBy).HasColumnName("ModifiedBy");
+            this.Property(t => t.ModifiedDate).HasColumnName("ModifiedDate");
 
         }
     }

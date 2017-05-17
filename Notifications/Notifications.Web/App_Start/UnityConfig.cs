@@ -51,6 +51,8 @@ namespace Notifications.App_Start
                 .RegisterType<IRepositoryAsync<Customer>, Repository<Customer>>()
                 .RegisterType<IRepositoryAsync<Product>, Repository<Product>>()
                 .RegisterType<IRepositoryAsync<Subscriber>, Repository<Subscriber>>()
+                //.RegisterType<IRepositoryAsync<Menu>, Repository<Menu>>()
+                //.RegisterType<IMenuService, MenuService>()
                 .RegisterType<ISubscriberService, SubscriberService>()
                 .RegisterType<INotificationService, NotificationService>()
                 .RegisterType<INotificationStoredProcedures, NotificationsContext>(new PerRequestLifetimeManager())

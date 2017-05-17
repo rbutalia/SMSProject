@@ -1,6 +1,6 @@
 ﻿
+using System;
 using Repository.Pattern.Ef6;
-using System.Collections.Generic;
 
 namespace Notifications.Entities.Models
 {
@@ -25,6 +25,10 @@ namespace Notifications.Entities.Models
         public string Phone { get; set; }
         public string Fax { get; set; }
         public virtual Company Company { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string ModifiedBy { get; set; }
+        public DateTime ModifiedDate { get; set; }
         //public virtual ICollection<Order> Orders { get; set; }
         //public virtual ICollection<CustomerDemographic> CustomerDemographics { get; set; }
     }

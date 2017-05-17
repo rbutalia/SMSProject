@@ -26,8 +26,10 @@ namespace Notifications.Entities.Mappings
             this.Property(t => t.CustomerId).HasColumnName("CustomerId").IsRequired();
             this.Property(t => t.Subscribed).HasColumnName("Subscribed");
             this.Property(t => t.IsActive).HasColumnName("IsActive");
-            this.Property(t => t.CreatedOn).HasColumnName("CreatedOn");
-            this.Property(t => t.UpdatedOn).HasColumnName("UpdatedOn");
+            this.Property(t => t.CreatedBy).HasColumnName("CreatedBy");
+            this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
+            this.Property(t => t.ModifiedBy).HasColumnName("ModifiedBy");
+            this.Property(t => t.ModifiedDate).HasColumnName("ModifiedDate");
         }
     }
 }

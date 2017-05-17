@@ -16,6 +16,9 @@ namespace Notifications.Entities.Mappings
             this.Property(t => t.MenuID)
                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
+            this.Property(t => t.MenuName)
+                .HasMaxLength(30);
+
             this.Property(t => t.CreatedBy)
                 .HasMaxLength(30);
 
@@ -24,6 +27,7 @@ namespace Notifications.Entities.Mappings
 
             this.ToTable("Menus");
             this.Property(t => t.MenuID).HasColumnName("MenuID");
+            this.Property(t => t.MenuName).HasColumnName("MenuName");
             this.Property(t => t.CompanyID).HasColumnName("CompanyID");
             this.Property(t => t.IsActive).HasColumnName("IsActive");
             this.Property(t => t.CreatedBy).HasColumnName("CreatedBy");

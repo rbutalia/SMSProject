@@ -10,19 +10,19 @@ namespace Notifications.Entities.Mappings
         public OrderDetailConfig()
         {
             // Primary Key
-            this.HasKey(t => new { t.OrderID, t.ProductID });
+            this.HasKey(t => new { t.OrderID, t.MenuItemID });
 
             // Properties
             this.Property(t => t.OrderID)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
-            this.Property(t => t.ProductID)
+            this.Property(t => t.MenuItemID)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             // Table & Column Mappings
             this.ToTable("OrderDetails");
             this.Property(t => t.OrderID).HasColumnName("OrderID");
-            this.Property(t => t.ProductID).HasColumnName("ProductID");
+            this.Property(t => t.MenuItemID).HasColumnName("MenuItemID");
             this.Property(t => t.UnitPrice).HasColumnName("UnitPrice");
             this.Property(t => t.Quantity).HasColumnName("Quantity");
             this.Property(t => t.Discount).HasColumnName("Discount");
@@ -31,9 +31,9 @@ namespace Notifications.Entities.Mappings
             this.HasRequired(t => t.Order)
                 .WithMany(t => t.OrderDetails)
                 .HasForeignKey(d => d.OrderID);
-            this.HasRequired(t => t.Product)
+            this.HasRequired(t => t.Dish)
                 .WithMany(t => t.OrderDetails)
-                .HasForeignKey(d => d.ProductID);
+                .HasForeignKey(d => d.MenuItemID);
 
         }
     }

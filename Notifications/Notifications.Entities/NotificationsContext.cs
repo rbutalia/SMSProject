@@ -43,5 +43,16 @@ namespace Notifications.Entities
             modelBuilder.Configurations.Add(new MenuConfig());
             modelBuilder.Configurations.Add(new MenuItemConfig());
         }
+
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<JohnsChildTable>()
+        //                .HasRequired(t => t.JohnsParentTable)
+        //                .WithMany(t => t.JohnsChildTables)
+        //                .HasForeignKey(d => d.JohnsParentTableId)
+        //                .WillCascadeOnDelete(true);
+
+        //    base.OnModelCreating(modelBuilder);
+        //}
     }
 }

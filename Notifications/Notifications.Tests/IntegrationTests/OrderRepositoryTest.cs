@@ -11,9 +11,7 @@ using Notifications.Entities.Models;
 using Repository.Pattern.DataContext;
 using Repository.Pattern.Repositories;
 using Repository.Pattern.Infrastructure;
-using Notifications.Tests.IntegrationTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 
 namespace Northwind.Test.IntegrationTests
 {
@@ -25,7 +23,7 @@ namespace Northwind.Test.IntegrationTests
         [TestInitialize]
         public void Initialize()
         {
-            Utility.CreateSeededTestDatabase();
+            //Utility.CreateSeededTestDatabase();
         }
 
         [TestMethod]
@@ -55,13 +53,13 @@ namespace Northwind.Test.IntegrationTests
                     {
                         new OrderDetail
                         {
-                            ProductID = 1,
+                            MenuItemID = 1,
                             Quantity = 5,
                             ObjectState = ObjectState.Added
                         },
                         new OrderDetail
                         {
-                            ProductID = 2,
+                            MenuItemID = 2,
                             Quantity = 5,
                             ObjectState = ObjectState.Added
                         }

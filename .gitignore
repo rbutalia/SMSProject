@@ -4,6 +4,12 @@ ehthumbs.db
 
 # Folder config file
 Desktop.ini
+*.suo
+*.user
+_ReSharper.*
+bin/
+obj/
+packages/
 
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
