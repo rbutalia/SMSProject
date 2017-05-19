@@ -181,14 +181,36 @@ namespace Northwind.Test.IntegrationTests
                 new WorkflowStep { CompanyID = newCompany.CompanyID, StepName = "Step 2", Description="Description for Step 2", RegularExpression = "^([0-9]+,)*[0-9]+$", CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added}
             };
 
+            var menu1 = new Menu { IsActive = true, CompanyID = newCompany.CompanyID, MenuName = "Menu For DoughZone", CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
+
+            var menuItems = new[]
+            {
+                new MenuItem { MenuID = menu1.MenuID, ItemName = "Item 1", IsActive = true, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added},
+                new MenuItem { MenuID = menu1.MenuID, ItemName = "Item 2", IsActive = true, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added},
+                new MenuItem { MenuID = menu1.MenuID, ItemName = "Item 3", IsActive = true, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added},
+                new MenuItem { MenuID = menu1.MenuID, ItemName = "Item 4", IsActive = true, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added},
+                new MenuItem { MenuID = menu1.MenuID, ItemName = "Item 5", IsActive = true, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added}
+            };
+
+
             try
             {
+                _unitOfWork.BeginTransaction();
+                foreach (var item in menuItems)
+                {
+                    menu1.MenuItems.Add(item);
+                }
+
+                newCompany.Menus.Add(menu1);
+
                 foreach (var step in steps)
                 {
                     newCompany.WorkFlowSteps.Add(step);
                 }
+
                 _companyRepository.InsertOrUpdateGraph(newCompany);
                 _unitOfWork.SaveChanges();
+                _unitOfWork.Commit();
             }
             catch (DbEntityValidationException ex)
             {
@@ -217,6 +239,14 @@ namespace Northwind.Test.IntegrationTests
             foreach (var step in newCompany.WorkFlowSteps)
             {
                 step.ObjectState = ObjectState.Deleted;
+            }
+            foreach (var item in newCompany.Menus.First().MenuItems)
+            {
+                item.ObjectState = ObjectState.Deleted;
+            }
+            foreach (var item in newCompany.Menus)
+            {
+                item.ObjectState = ObjectState.Deleted;
             }
             newCompany.ObjectState = ObjectState.Deleted;
             _companyRepository.Delete(newCompany.CompanyID);

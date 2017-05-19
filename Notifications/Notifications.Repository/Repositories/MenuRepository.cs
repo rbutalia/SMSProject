@@ -17,8 +17,10 @@ namespace Notifications.Repository.Repositories
         public static Menu GetMenuByCompanyIdentifier(this IRepositoryAsync<Menu> repository, string textIdentifier)
         {
             return repository
-                    .Queryable()
-                    .Where(x => x.Company.TextIdentifier.ToUpper().Equals(textIdentifier) && x.IsActive).SingleOrDefault();
+                    .Query(x => x.Company.TextIdentifier.ToUpper().Equals(textIdentifier) && x.IsActive)
+                    .Include(x => x.MenuItems)
+                    .Select()
+                    .SingleOrDefault();
         }
     }
 }

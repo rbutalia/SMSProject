@@ -39,12 +39,13 @@ namespace Notifications.Services
 
         public string GetMenuByCompanyIdentifier(string textIdentifier)
         {
-            var menuBuilder = new StringBuilder("Please reply with your choice, as under:");
+            var menuBuilder = new StringBuilder();
+            menuBuilder.AppendLine("Please reply with your choice, as under;");
             var thisMenu = _repository.GetMenuByCompanyIdentifier(textIdentifier);
             if (thisMenu == null) return string.Empty;
             foreach (MenuItem item in thisMenu.MenuItems)
             {
-                menuBuilder.AppendLine(string.Format("{0}: {1}", item.MenuID, item.ItemName));
+                menuBuilder.AppendLine(string.Format("{0}: {1}", item.MenuItemID, item.ItemName));
             }
             return menuBuilder.ToString();
         }

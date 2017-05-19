@@ -29,20 +29,26 @@ namespace Notifications.Helpers
 
         public async Task<string> CreateOrder(int customerID, string message){
             try {
-                var newOrder = new Order { CustomerID = customerID, OrderDate = DateTime.Now, CreatedBy = SYS_USER, CreatedDate = DateTime.Now, ModifiedBy = SYS_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
+                var newOrder = new Order { CustomerID = customerID, OrderDate = DateTime.Now,  CreatedBy = SYS_USER, CreatedDate = DateTime.Now, ModifiedBy = SYS_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
                 var items = message.Split(',');
-                foreach (var item in items)
+                var flag = VerifyOrderInput(items);
+                if (flag)
                 {
-                    var itemDetail = new OrderDetail { OrderID = newOrder.OrderID, MenuItemID = int.Parse(item), Quantity = 1, CreatedBy = SYS_USER, CreatedDate = DateTime.Now, ModifiedBy = SYS_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
-                    newOrder.OrderDetails.Add(itemDetail);
+                    foreach (var item in items)
+                    {
+                        var itemDetail = new OrderDetail { OrderID = newOrder.OrderID, MenuItemID = int.Parse(item), Quantity = 1, CreatedBy = SYS_USER, CreatedDate = DateTime.Now, ModifiedBy = SYS_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
+                        newOrder.OrderDetails.Add(itemDetail);
+                    }
+                    _orderService.InsertOrUpdateGraph(newOrder);
+                    _unitOfWorkAsync.SaveChanges();
+                    return await CreateOutputMessage(true, newOrder.OrderID.ToString());
                 }
-                _orderService.InsertOrUpdateGraph(newOrder);
-                _unitOfWorkAsync.SaveChanges();
-                return await CreateOutputMessage(true);
+                else
+                    return await CreateOutputMessage(false, string.Empty);
             }
             catch (Exception) {
             }
-            return await CreateOutputMessage(false);
+            return await CreateOutputMessage(false, string.Empty);
         }
 
         private bool VerifyOrderInput(string[] items){
@@ -59,10 +65,10 @@ namespace Notifications.Helpers
             }
         }
 
-        private async Task<string> CreateOutputMessage(bool status){
+        private async Task<string> CreateOutputMessage(bool status, string orderId){
             var outputMesssage = string.Empty;
             if (status)
-                return "Order successfully placed";
+                return string.Format("Order {0} successfully placed", orderId);
             return "Sorry for the inconveniencee, The system was unable to place an order at the present time.";
         }
     }

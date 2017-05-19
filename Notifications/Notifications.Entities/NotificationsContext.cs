@@ -12,7 +12,8 @@ namespace Notifications.Entities
             Database.SetInitializer<NotificationsContext>(new DropCreateDatabaseIfModelChanges<NotificationsContext>());
         }
 
-        public NotificationsContext(): base("Name=NotificationsContext"){ }
+        public NotificationsContext(): base("Name=NotificationsContext"){
+        }
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }

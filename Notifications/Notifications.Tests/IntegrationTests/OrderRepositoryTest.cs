@@ -19,7 +19,7 @@ namespace Northwind.Test.IntegrationTests
     public class OrderRepositoryTest
     {
         public TestContext TestContext { get; set; }
-
+        private const string SYS_USER = "TEST";
         [TestInitialize]
         public void Initialize()
         {
@@ -36,9 +36,13 @@ namespace Northwind.Test.IntegrationTests
 
                 var orderTest = new Order
                 {
-                    CustomerID = 9989,
-                    EmployeeID = 10,
+                    CustomerID = 1,
+                    //EmployeeID = 10,
                     OrderDate = DateTime.Now,
+                    CreatedBy = SYS_USER,
+                    CreatedDate = DateTime.Now,
+                    ModifiedBy = SYS_USER,
+                    ModifiedDate = DateTime.Now,
                     ObjectState = ObjectState.Added,
 
                     //Employee = new Employee
@@ -55,12 +59,20 @@ namespace Northwind.Test.IntegrationTests
                         {
                             MenuItemID = 1,
                             Quantity = 5,
+                            CreatedBy = SYS_USER,
+                            CreatedDate = DateTime.Now,
+                            ModifiedBy = SYS_USER,
+                            ModifiedDate = DateTime.Now,
                             ObjectState = ObjectState.Added
                         },
                         new OrderDetail
                         {
                             MenuItemID = 2,
                             Quantity = 5,
+                            CreatedBy = SYS_USER,
+                            CreatedDate = DateTime.Now,
+                            ModifiedBy = SYS_USER,
+                            ModifiedDate = DateTime.Now,
                             ObjectState = ObjectState.Added
                         }
                     }

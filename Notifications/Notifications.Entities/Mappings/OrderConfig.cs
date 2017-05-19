@@ -39,7 +39,7 @@ namespace Notifications.Entities.Mappings
             this.ToTable("Orders");
             this.Property(t => t.OrderID).HasColumnName("OrderID");
             this.Property(t => t.CustomerID).HasColumnName("CustomerID");
-            this.Property(t => t.EmployeeID).HasColumnName("EmployeeID").IsOptional();
+            //this.Property(t => t.EmployeeID).HasColumnName("EmployeeID").IsOptional();
             this.Property(t => t.OrderDate).HasColumnName("OrderDate");
             this.Property(t => t.RequiredDate).HasColumnName("RequiredDate").IsOptional();
             this.Property(t => t.ShippedDate).HasColumnName("ShippedDate").IsOptional();
@@ -65,9 +65,9 @@ namespace Notifications.Entities.Mappings
             //    .WithMany(t => t.Orders)
             //    .HasForeignKey(d => d.EmployeeID);
 
-            this.HasOptional(t => t.Shipper)
-                .WithMany(t => t.Orders)
-                .HasForeignKey(d => d.ShipVia);
+            //this.HasOptional(t => t.Shipper)
+            //    .WithMany(t => t.Orders)
+            //    .HasForeignKey(d => d.ShipVia);
 
         }
     }

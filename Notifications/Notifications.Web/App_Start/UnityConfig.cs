@@ -48,14 +48,18 @@ namespace Notifications.App_Start
             container
                 .RegisterType<IDataContextAsync, NotificationsContext>(new PerRequestLifetimeManager())
                 .RegisterType<IUnitOfWorkAsync, UnitOfWork>(new PerRequestLifetimeManager())
+                .RegisterType<IRepositoryAsync<Company>, Repository<Company>>()
                 .RegisterType<IRepositoryAsync<Customer>, Repository<Customer>>()
                 .RegisterType<IRepositoryAsync<Product>, Repository<Product>>()
                 .RegisterType<IRepositoryAsync<Subscriber>, Repository<Subscriber>>()
                 .RegisterType<IRepositoryAsync<Menu>, Repository<Menu>>()
+                .RegisterType<IRepositoryAsync<Order>, Repository<Order>>()
+                .RegisterType<IOrderService, OrderService>()
                 .RegisterType<IMenuService, MenuService>()
                 .RegisterType<ICustomerService, CustomerService>()
                 .RegisterType<ISubscriberService, SubscriberService>()
                 .RegisterType<INotificationService, NotificationService>()
+                .RegisterType<ICompanyService, CompanyService>()
                 .RegisterType<INotificationStoredProcedures, NotificationsContext>(new PerRequestLifetimeManager())
                 .RegisterType<IStoredProcedureService, StoredProcedureService>();
         }

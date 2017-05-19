@@ -15,5 +15,14 @@ namespace Notifications.Repository.Repositories
                     .Where(x => x.CustomerID == customerID)
                     .AsEnumerable();
         }
+
+        public static Order GetMostRecentOrderByCustomerID(this IRepositoryAsync<Order> repository, int customerID)
+        {
+            return repository
+                    .Queryable()
+                    .Where(x => x.CustomerID == customerID)
+                    .OrderByDescending(x => x.OrderDate)
+                    .SingleOrDefault();
+        }
     }
 }
