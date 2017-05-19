@@ -60,14 +60,14 @@ namespace Notifications.Entities.Mappings
             this.HasRequired(t => t.Customer)
                 .WithMany(t => t.Orders)
                 .HasForeignKey(d => d.CustomerID).WillCascadeOnDelete(false);
-            
+
+            this.HasRequired(t => t.Company)
+                .WithMany(t => t.Orders)
+                .HasForeignKey(d => d.CompanyID).WillCascadeOnDelete(false);
+
             //this.HasOptional(t => t.Employee)
             //    .WithMany(t => t.Orders)
             //    .HasForeignKey(d => d.EmployeeID);
-
-            //this.HasOptional(t => t.Shipper)
-            //    .WithMany(t => t.Orders)
-            //    .HasForeignKey(d => d.ShipVia);
 
         }
     }

@@ -34,29 +34,32 @@ namespace Northwind.Test.IntegrationTests
             {
                 IRepositoryAsync<Order> orderRepository = new Repository<Order>(context, unitOfWork);
 
-                var orderTest = new Order
+                Order orderTest = new Order
                 {
                     CustomerID = 1,
-                    //EmployeeID = 10,
+                    CompanyID = 1,
                     OrderDate = DateTime.Now,
                     CreatedBy = SYS_USER,
                     CreatedDate = DateTime.Now,
                     ModifiedBy = SYS_USER,
                     ModifiedDate = DateTime.Now,
-                    ObjectState = ObjectState.Added,
+                    ObjectState = ObjectState.Added
+                };
 
-                    //Employee = new Employee
-                    //{
-                    //    EmployeeID = 10,
-                    //    FirstName = "Test",
-                    //    LastName = "Le",
-                    //    ObjectState = ObjectState.Added
-                    //},
-
-                    OrderDetails = new List<OrderDetail>
+                //Employee = new Employee
+                //{
+                //    EmployeeID = 10,
+                //    FirstName = "Test",
+                //    LastName = "Le",
+                //    ObjectState = ObjectState.Added
+                //},
+                orderRepository.Insert(orderTest);
+                unitOfWork.SaveChanges();
+                var OrderDetails = new List<OrderDetail>
                     {
                         new OrderDetail
                         {
+                            OrderID = orderTest.OrderID,
                             MenuItemID = 1,
                             Quantity = 5,
                             CreatedBy = SYS_USER,
@@ -67,6 +70,7 @@ namespace Northwind.Test.IntegrationTests
                         },
                         new OrderDetail
                         {
+                            OrderID = orderTest.OrderID,
                             MenuItemID = 2,
                             Quantity = 5,
                             CreatedBy = SYS_USER,
@@ -75,9 +79,11 @@ namespace Northwind.Test.IntegrationTests
                             ModifiedDate = DateTime.Now,
                             ObjectState = ObjectState.Added
                         }
-                    }
-                };
-
+                    };
+                foreach (var item in OrderDetails)
+                {
+                    orderTest.OrderDetails.Add(item);
+                }
                 orderRepository.InsertOrUpdateGraph(orderTest);
 
                 try

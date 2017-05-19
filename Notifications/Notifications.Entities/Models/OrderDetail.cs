@@ -6,6 +6,7 @@ namespace Notifications.Entities.Models
 {
     public partial class OrderDetail : Entity
     {
+        public int OrderDetailID { get; set; }
         public int OrderID { get; set; }
         public int MenuItemID { get; set; }
         public decimal UnitPrice { get; set; }

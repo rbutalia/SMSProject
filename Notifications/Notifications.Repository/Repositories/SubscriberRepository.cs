@@ -28,7 +28,7 @@ namespace Notifications.Repository.Repositories
         {
             return repository
                     .Queryable()
-                    .Where(x => x.PhoneNumber.Equals(phoneNumber) && x.IsActive)
+                    .Where(x => x.PhoneNumber.Equals(phoneNumber))
                     .SingleOrDefault();
         }
     }

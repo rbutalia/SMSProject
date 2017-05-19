@@ -43,5 +43,7 @@ namespace Notifications.Entities
             modelBuilder.Configurations.Add(new WorkflowStepConfig());
             base.OnModelCreating(modelBuilder);
         }
+
+        public System.Data.Entity.DbSet<Notifications.Entities.Models.Company> Companies { get; set; }
     }
 }

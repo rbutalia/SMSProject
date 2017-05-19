@@ -43,7 +43,7 @@ namespace Notifications.Controllers
         public async Task<TwiMLResult> Index()
         {
             var counter = 0;
-            string requestBody = Request.Form["Body"];
+            string requestBody = Request.Form["Body"].Trim();
             string requestFrom = Request.Form["From"];
             string requestTo = Request.Form["To"];
             var outputMessage = string.Empty;
@@ -106,7 +106,8 @@ namespace Notifications.Controllers
                             Regex expression = new Regex(step.RegularExpression);
                             if (expression.IsMatch(requestBody))
                             {
-                                outputMessage = await orderCreator.CreateOrder(12, requestBody);
+                                outputMessage = await orderCreator.CreateOrder(thisSubscriber.CustomerId, thisCompany.CompanyID, requestBody);
+                                Session["counter"] = 0; // reseting the counter for fresh order for the same user
                             }
                             else
                             {
@@ -114,6 +115,7 @@ namespace Notifications.Controllers
                                 Session["counter"] = counter;
                                 outputMessage = "Bad input, kindly send another request :)";
                             }
+
                         }
                         else if (counter > 2)
                         {
@@ -150,6 +152,7 @@ namespace Notifications.Controllers
                 //int companyId = _menuService.
                 var customer = new Customer {
                     CompanyID = companyID,
+                    Phone = requestFrom,
                     CreatedBy = SYS_USER,
                     CreatedDate = DateTime.Now,
                     ModifiedBy = SYS_USER,

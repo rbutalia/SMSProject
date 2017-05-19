@@ -27,9 +27,10 @@ namespace Notifications.Helpers
             _orderService = orderService;
         }
 
-        public async Task<string> CreateOrder(int customerID, string message){
+        public async Task<string> CreateOrder(int customerID, int companyID, string message){
             try {
-                var newOrder = new Order { CustomerID = customerID, OrderDate = DateTime.Now,  CreatedBy = SYS_USER, CreatedDate = DateTime.Now, ModifiedBy = SYS_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
+                var newOrder = new Order { CustomerID = customerID, CompanyID = companyID, OrderDate = DateTime.Now,  CreatedBy = SYS_USER, CreatedDate = DateTime.Now, ModifiedBy = SYS_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
+                _orderService.Insert(newOrder);
                 var items = message.Split(',');
                 var flag = VerifyOrderInput(items);
                 if (flag)
@@ -46,7 +47,8 @@ namespace Notifications.Helpers
                 else
                     return await CreateOutputMessage(false, string.Empty);
             }
-            catch (Exception) {
+            catch (Exception ex) {
+                
             }
             return await CreateOutputMessage(false, string.Empty);
         }

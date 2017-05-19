@@ -24,5 +24,13 @@ namespace Notifications.Repository.Repositories
                     .OrderByDescending(x => x.OrderDate)
                     .SingleOrDefault();
         }
+        public static IEnumerable<Order> GetOrdersByCompanyID(this IRepositoryAsync<Order> repository, int companyID)
+        {
+            return repository
+                     .Query(x => x.CompanyID == companyID)
+                     .Include(x => x.Customer)
+                     .Include(x => x.OrderDetails)
+                     .Select();
+        }
     }
 }

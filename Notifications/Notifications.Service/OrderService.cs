@@ -10,6 +10,8 @@ namespace Notifications.Services
     public interface IOrderService : IService<Order>
     {
         IEnumerable<Order> GetOrdersByCustomerID(int customerID);
+        Order GetMostRecentOrderByCustomerID(int customerID);
+        IEnumerable<Order> GetOrdersByCompanyID(int companyID);
     }
 
     public class OrderService : Service<Order>, IOrderService
@@ -23,6 +25,14 @@ namespace Notifications.Services
         public IEnumerable<Order> GetOrdersByCustomerID(int customerID)
         {
             return _repository.GetOrdersByCustomerID(customerID);
+        }
+        public Order GetMostRecentOrderByCustomerID(int customerID)
+        {
+            return _repository.GetMostRecentOrderByCustomerID(customerID);
+        }
+        public IEnumerable<Order> GetOrdersByCompanyID(int companyID)
+        {
+            return _repository.GetOrdersByCompanyID(companyID);
         }
         public override void Insert(Order entity)
         {

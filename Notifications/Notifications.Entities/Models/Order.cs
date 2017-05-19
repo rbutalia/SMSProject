@@ -14,6 +14,7 @@ namespace Notifications.Entities.Models
         }
 
         public int OrderID { get; set; }
+        public int CompanyID { get; set; }
         public int CustomerID { get; set; }
         //public int? EmployeeID { get; set; }
         public DateTime OrderDate { get; set; }
@@ -27,6 +28,7 @@ namespace Notifications.Entities.Models
         public string ShipRegion { get; set; }
         public string ShipPostalCode { get; set; }
         public string ShipCountry { get; set; }
+        public virtual Company Company { get; set; }
         public virtual Customer Customer { get; set; }
        // public virtual Employee Employee { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
