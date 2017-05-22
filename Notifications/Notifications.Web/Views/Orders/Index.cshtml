@@ -16,13 +16,13 @@
             Order Details
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Company.TextIdentifier)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Customer.Phone)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.OrderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalWithTax)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CreatedBy)
@@ -35,27 +35,27 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
+        <td>Order ID: @item.OrderID<br />
             @foreach (OrderDetail it in item.OrderDetails)
             {
                 <ul>
-                    <li>@it.Dish.ItemName</li>
+
                     <li>@it.MenuItemID</li>
                     <li>@it.Quantity</li>
                     <li>@it.UnitPrice</li>
                 </ul>
             }
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Company.TextIdentifier)
-        </td>
+        
         <td>
             @Html.DisplayFor(modelItem => item.Customer.Phone)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.OrderDate)
         </td>
-        
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalWithTax)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.CreatedBy)
         </td>
@@ -63,8 +63,8 @@
             @Html.DisplayFor(modelItem => item.CreatedDate)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.OrderID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.OrderID }) |
+            @Html.ActionLink("Complete", "complete", new { id=item.OrderID }) |
+            @Html.ActionLink("Cancel", "cancel", new { id=item.OrderID }) |
             
         </td>
     </tr>

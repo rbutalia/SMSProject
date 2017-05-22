@@ -1,21 +1,14 @@
 ﻿
 using System;
+using System.Text;
 using Notifications.Services;
 using System.Threading.Tasks;
 using Notifications.Entities.Models;
 using Repository.Pattern.UnitOfWork;
 using Repository.Pattern.Infrastructure;
-using System.Text;
 
 namespace Notifications.Helpers
 {
-    public enum ReturnStatus
-    {
-        Success = 1,
-        Failure = 2,
-        InvalidInput = 3,
-        ItemNotFound = 4
-    }
     public class OrderCreator
     {
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
@@ -39,7 +32,16 @@ namespace Notifications.Helpers
         public async Task<string> CreateOrder(int customerID, int companyID, string message){
             try {
                 _unitOfWorkAsync.BeginTransaction();
-                var newOrder = new Order { CustomerID = customerID, CompanyID = companyID, OrderDate = DateTime.Now, CreatedBy = SYS_USER, CreatedDate = DateTime.Now, ModifiedBy = SYS_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
+                var newOrder = new Order { CustomerID = customerID,
+                                           CompanyID = companyID,
+                                           OrderDate = DateTime.Now,
+                                           Status = OrderStatus.Pending,
+                                           CreatedBy = SYS_USER,
+                                           CreatedDate = DateTime.Now,
+                                           ModifiedBy = SYS_USER,
+                                           ModifiedDate = DateTime.Now,
+                                           ObjectState = ObjectState.Added };
+
                 _orderService.Insert(newOrder);
                 var items = message.Split(',');
                 var flag = VerifyOrderInput(items);

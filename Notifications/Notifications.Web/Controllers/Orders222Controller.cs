@@ -1,15 +1,15 @@
 ﻿
-using System;
 using System.Web.Mvc;
-using System.Threading.Tasks;
 using Notifications.Services;
 using Repository.Pattern.UnitOfWork;
+using System.Threading.Tasks;
 using Notifications.Entities.Models;
+using System;
 using Repository.Pattern.Infrastructure;
 
 namespace Notifications.Controllers
 {
-    public class OrdersController : Controller
+    public class Orders22Controller : Controller
     {
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
         private readonly ICustomerService _customerService;
@@ -20,7 +20,7 @@ namespace Notifications.Controllers
 
         private const string SYS_USER = "SYSTEM";
 
-        public OrdersController(IUnitOfWorkAsync unitOfWorkAsync,
+        public Orders22Controller(IUnitOfWorkAsync unitOfWorkAsync,
                                     ISubscriberService subscriberService,
                                     IMenuService menuService,
                                     ICustomerService customerService,

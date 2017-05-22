@@ -1,15 +1,16 @@
 ﻿
 using System;
-using System.Web.Mvc;
+using System.Web.Http;
 using System.Threading.Tasks;
 using Notifications.Services;
+using System.Collections.Generic;
 using Repository.Pattern.UnitOfWork;
 using Notifications.Entities.Models;
 using Repository.Pattern.Infrastructure;
 
-namespace Notifications.Controllers
+namespace Notifications.Controllers.api
 {
-    public class OrdersController : Controller
+    public class OrdersController : ApiController
     {
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
         private readonly ICustomerService _customerService;
@@ -18,7 +19,8 @@ namespace Notifications.Controllers
         private readonly ICompanyService _companyService;
         private readonly IOrderService _orderService;
 
-        private const string SYS_USER = "SYSTEM";
+        private const string SYS_USER = "SYSTEM_API";
+        private const string _companyTextIdentifier = "LUNCH";
 
         public OrdersController(IUnitOfWorkAsync unitOfWorkAsync,
                                     ISubscriberService subscriberService,
@@ -35,21 +37,35 @@ namespace Notifications.Controllers
             _orderService = orderService;
         }
 
-        private const string _companyTextIdentifier = "LUNCH";
-        // GET: Orders
-        public ActionResult Index()
+        // GET api/<controller>
+        public IEnumerable<Order> Get()
         {
             int companyId = _companyService.GetCompanyByTextIdentifier(_companyTextIdentifier).CompanyID;
             var orders = _orderService.GetOrdersByCompanyID(companyId);
-            return View(orders);
+            return orders;
         }
 
-        public async Task Complete(int id)
+        // GET api/<controller>/5
+        public async Task<Order> Get(int id)
+        {
+            return await _orderService.FindAsync(id);
+        }
+
+        // POST api/<controller>
+        public void Post([FromBody]string value)
+        {
+        }
+
+        // PUT api/<controller>/5
+        public void Put(int id, [FromBody]string value)
         {
             try
             {
-                var thisOrder = await _orderService.FindAsync(id);
-                thisOrder.Status = OrderStatus.Completed;
+                var thisOrder = _orderService.Find(id);
+                if(value == "Complete")
+                    thisOrder.Status = OrderStatus.Completed;
+                else if(value == "Cancel")
+                    thisOrder.Status = OrderStatus.Cancelled;
                 thisOrder.ModifiedBy = SYS_USER;
                 thisOrder.ModifiedDate = DateTime.Now;
                 thisOrder.ObjectState = ObjectState.Modified;
@@ -59,34 +75,9 @@ namespace Notifications.Controllers
             catch { }
         }
 
-        public async Task Cancel(int id)
+        // DELETE api/<controller>/5
+        public void Delete(int id)
         {
-            try
-            {
-                var thisOrder = await _orderService.FindAsync(id);
-                thisOrder.Status = OrderStatus.Cancelled;
-                thisOrder.ModifiedBy = SYS_USER;
-                thisOrder.ModifiedDate = DateTime.Now;
-                thisOrder.ObjectState = ObjectState.Modified;
-                _orderService.Update(thisOrder);
-                _unitOfWorkAsync.SaveChanges();
-            }
-            catch { }
-        }
-
-        public async Task OnHold(int id)
-        {
-            try
-            {
-                var thisOrder = await _orderService.FindAsync(id);
-                thisOrder.Status = OrderStatus.OnHold;
-                thisOrder.ModifiedBy = SYS_USER;
-                thisOrder.ModifiedDate = DateTime.Now;
-                thisOrder.ObjectState = ObjectState.Modified;
-                _orderService.Update(thisOrder);
-                _unitOfWorkAsync.SaveChanges();
-            }
-            catch { }
         }
     }
 }

@@ -6,6 +6,20 @@ using System.Collections.Generic;
 
 namespace Notifications.Entities.Models
 {
+    public enum OrderStatus
+    {
+        Pending = 1,
+        Completed = 2,
+        Cancelled = 3,
+        OnHold = 4
+    }
+    public enum ReturnStatus
+    {
+        Success = 1,
+        Failure = 2,
+        InvalidInput = 3,
+        ItemNotFound = 4
+    }
     public partial class Order : Entity
     {
         public Order()
@@ -30,6 +44,7 @@ namespace Notifications.Entities.Models
         public string ShipCountry { get; set; }
         public decimal Total { get; set; }
         public decimal TotalWithTax { get; set; }
+        public OrderStatus Status { get; set; }
         public virtual Company Company { get; set; }
         public virtual Customer Customer { get; set; }
        // public virtual Employee Employee { get; set; }

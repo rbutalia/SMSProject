@@ -27,7 +27,7 @@ namespace Notifications.Repository.Repositories
         public static IEnumerable<Order> GetOrdersByCompanyID(this IRepositoryAsync<Order> repository, int companyID)
         {
             return repository
-                     .Query(x => x.CompanyID == companyID)
+                     .Query(x => x.CompanyID == companyID && x.Status == OrderStatus.Pending)
                      .Include(x => x.Customer)
                      .Include(x => x.OrderDetails)
                      .Select();
