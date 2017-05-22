@@ -48,7 +48,7 @@ namespace Notifications.Controllers
             string requestTo = Request.Form["To"];
             var outputMessage = string.Empty;
             var messageCreator = new MessageCreator(_unitOfWorkAsync, _subscriptionService, _menuService);
-            var orderCreator = new OrderCreator(_unitOfWorkAsync, _orderService);
+            var orderCreator = new OrderCreator(_unitOfWorkAsync, _companyService, _menuService, _orderService);
             
             // get the session varible if it exists
             if (Session["counter"] != null)

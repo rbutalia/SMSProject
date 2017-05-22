@@ -28,6 +28,8 @@ namespace Notifications.Entities.Models
         public string ShipRegion { get; set; }
         public string ShipPostalCode { get; set; }
         public string ShipCountry { get; set; }
+        public decimal Total { get; set; }
+        public decimal TotalWithTax { get; set; }
         public virtual Company Company { get; set; }
         public virtual Customer Customer { get; set; }
        // public virtual Employee Employee { get; set; }

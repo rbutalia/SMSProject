@@ -17,6 +17,7 @@ namespace Notifications.Entities.Models
         public string TextIdentifier { get; set; }
         public string CompanyName { get; set; }
         public string ContactPersonName { get; set; }
+        public decimal SalesTax { get; set; }
         public virtual ICollection<Menu> Menus { get; set; }
         public virtual ICollection<WorkflowStep> WorkFlowSteps { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

@@ -173,7 +173,7 @@ namespace Northwind.Test.IntegrationTests
         [TestMethod]
         public void InsertNewCompany()
         {
-            var newCompany = new Company { CompanyName = "DoughZone", TextIdentifier = "LUNCH", ContactPersonName = "Edwin", CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
+            var newCompany = new Company { CompanyName = "DoughZone", TextIdentifier = "LUNCH", ContactPersonName = "Edwin", SalesTax = 9.50m, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
 
             var steps = new[]
             {
@@ -185,11 +185,11 @@ namespace Northwind.Test.IntegrationTests
 
             var menuItems = new[]
             {
-                new MenuItem { MenuID = menu1.MenuID, ItemName = "Item 1", IsActive = true, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added},
-                new MenuItem { MenuID = menu1.MenuID, ItemName = "Item 2", IsActive = true, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added},
-                new MenuItem { MenuID = menu1.MenuID, ItemName = "Item 3", IsActive = true, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added},
-                new MenuItem { MenuID = menu1.MenuID, ItemName = "Item 4", IsActive = true, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added},
-                new MenuItem { MenuID = menu1.MenuID, ItemName = "Item 5", IsActive = true, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added}
+                new MenuItem { MenuID = menu1.MenuID, ItemName = "Chicken Faluda", Price=6.99m, IsActive = true, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added},
+                new MenuItem { MenuID = menu1.MenuID, ItemName = "Beef Chalupa", Price=8.99m, IsActive = true, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added},
+                new MenuItem { MenuID = menu1.MenuID, ItemName = "Guandong Noodles", Price=7.69m, IsActive = true, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added},
+                new MenuItem { MenuID = menu1.MenuID, ItemName = "Duck Sashimi", Price=7.99m, IsActive = true, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added},
+                new MenuItem { MenuID = menu1.MenuID, ItemName = "King-kong salad", Price=4.99m, IsActive = true, CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added}
             };
 
 

@@ -9,6 +9,7 @@ namespace Notifications.Services
 {
     public interface IOrderService : IService<Order>
     {
+        //Order GetOrderByOrderID(int orderID);
         IEnumerable<Order> GetOrdersByCustomerID(int customerID);
         Order GetMostRecentOrderByCustomerID(int customerID);
         IEnumerable<Order> GetOrdersByCompanyID(int companyID);

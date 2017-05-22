@@ -35,6 +35,10 @@ namespace Notifications.Entities.Mappings
             this.Property(t => t.ShipCountry)
                 .HasMaxLength(15);
 
+            this.Property(t => t.Total).HasPrecision(4, 2);
+
+            this.Property(t => t.TotalWithTax).HasPrecision(5, 2);
+
             // Table & Column Mappings
             this.ToTable("Orders");
             this.Property(t => t.OrderID).HasColumnName("OrderID");
@@ -51,6 +55,8 @@ namespace Notifications.Entities.Mappings
             this.Property(t => t.ShipRegion).HasColumnName("ShipRegion");
             this.Property(t => t.ShipPostalCode).HasColumnName("ShipPostalCode");
             this.Property(t => t.ShipCountry).HasColumnName("ShipCountry");
+            this.Property(t => t.Total).HasColumnName("Total");
+            this.Property(t => t.TotalWithTax).HasColumnName("TotalWithTax");
             this.Property(t => t.CreatedBy).HasColumnName("CreatedBy");
             this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
             this.Property(t => t.ModifiedBy).HasColumnName("ModifiedBy");

@@ -14,6 +14,7 @@ namespace Notifications.Entities.Models
         public int MenuItemID { get; set; }
         public int MenuID { get; set; }
         public string ItemName { get; set; }
+        public decimal Price { get; set; }
         public bool IsActive { get; set; }
         public virtual Menu Menu { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }

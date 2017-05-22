@@ -5,52 +5,83 @@ using System.Threading.Tasks;
 using Notifications.Entities.Models;
 using Repository.Pattern.UnitOfWork;
 using Repository.Pattern.Infrastructure;
+using System.Text;
 
 namespace Notifications.Helpers
 {
+    public enum ReturnStatus
+    {
+        Success = 1,
+        Failure = 2,
+        InvalidInput = 3,
+        ItemNotFound = 4
+    }
     public class OrderCreator
     {
         private readonly IUnitOfWorkAsync _unitOfWorkAsync;
-        //private readonly ICustomerService _customerService;
-        //private readonly ISubscriberService _subscriptionService;
-        //private readonly IMenuService _menuService;
+        private readonly ICompanyService _companyService;
+        private readonly IMenuService _menuService;
         private readonly IOrderService _orderService;
 
         private const string SYS_USER = "SYSTEM";
 
-        public OrderCreator(IUnitOfWorkAsync unitOfWorkAsync, 
-                            IOrderService orderService){
+        public OrderCreator(IUnitOfWorkAsync unitOfWorkAsync,
+                            ICompanyService companyService,
+                            IMenuService menuService,
+                            IOrderService orderService)
+        {
             _unitOfWorkAsync = unitOfWorkAsync;
-            //_subscriptionService = subscriptionService;
-            //_customerService = customerService;
-            //_menuService = menuService;
+            _companyService = companyService;
+            _menuService = menuService;
             _orderService = orderService;
         }
 
         public async Task<string> CreateOrder(int customerID, int companyID, string message){
             try {
-                var newOrder = new Order { CustomerID = customerID, CompanyID = companyID, OrderDate = DateTime.Now,  CreatedBy = SYS_USER, CreatedDate = DateTime.Now, ModifiedBy = SYS_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
+                _unitOfWorkAsync.BeginTransaction();
+                var newOrder = new Order { CustomerID = customerID, CompanyID = companyID, OrderDate = DateTime.Now, CreatedBy = SYS_USER, CreatedDate = DateTime.Now, ModifiedBy = SYS_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
                 _orderService.Insert(newOrder);
                 var items = message.Split(',');
                 var flag = VerifyOrderInput(items);
                 if (flag)
                 {
+                    decimal total = 0.0m;
+                    decimal taxRate = 1 + _companyService.GetCompanyTaxRateByCompanyID(companyID) / 100;
                     foreach (var item in items)
                     {
-                        var itemDetail = new OrderDetail { OrderID = newOrder.OrderID, MenuItemID = int.Parse(item), Quantity = 1, CreatedBy = SYS_USER, CreatedDate = DateTime.Now, ModifiedBy = SYS_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
+                        var menu = _menuService.GetMenuByCompanyID(companyID);
+                        var price = _menuService.GetMenuPriceByMenuItemID(companyID, int.Parse(item));
+                        if (price == 0.0m)
+                            return await CreateOutputMessage(ReturnStatus.ItemNotFound, int.Parse(item));
+                        var itemDetail = new OrderDetail
+                        {
+                            OrderID = newOrder.OrderID,
+                            MenuItemID = int.Parse(item),
+                            UnitPrice = price,
+                            Quantity = 1,
+                            CreatedBy = SYS_USER,
+                            CreatedDate = DateTime.Now,
+                            ModifiedBy = SYS_USER,
+                            ModifiedDate = DateTime.Now,
+                            ObjectState = ObjectState.Added
+                        };
+                        total += price;
                         newOrder.OrderDetails.Add(itemDetail);
                     }
+                    newOrder.Total = total;
+                    newOrder.TotalWithTax = total * taxRate; ;
                     _orderService.InsertOrUpdateGraph(newOrder);
                     _unitOfWorkAsync.SaveChanges();
-                    return await CreateOutputMessage(true, newOrder.OrderID.ToString());
+                    _unitOfWorkAsync.Commit();
+                    return await CreateOutputMessage(ReturnStatus.Success, newOrder.OrderID);
                 }
-                else
-                    return await CreateOutputMessage(false, string.Empty);
+                else {
+                    return await CreateOutputMessage(ReturnStatus.InvalidInput, null);
+                }
             }
             catch (Exception ex) {
-                
+                return await CreateOutputMessage(ReturnStatus.Failure, null);
             }
-            return await CreateOutputMessage(false, string.Empty);
         }
 
         private bool VerifyOrderInput(string[] items){
@@ -67,11 +98,29 @@ namespace Notifications.Helpers
             }
         }
 
-        private async Task<string> CreateOutputMessage(bool status, string orderId){
+        private async Task<string> CreateOutputMessage(ReturnStatus status, int? orderId){
             var outputMesssage = string.Empty;
-            if (status)
-                return string.Format("Order {0} successfully placed", orderId);
-            return "Sorry for the inconveniencee, The system was unable to place an order at the present time.";
+            switch(status)
+            {
+                case ReturnStatus.Success:
+                    var thisOrder = await _orderService.FindAsync(orderId);
+                    var result = new StringBuilder();
+                    result.AppendLine(string.Format("Order # {0} successfully placed.", orderId));
+                    result.AppendLine(string.Format("Your order total is {0}$", Math.Round(thisOrder.TotalWithTax, 2)));
+                    outputMesssage = result.ToString();
+                    break;
+                case ReturnStatus.Failure:
+                    outputMesssage = "Sorry for the inconvenience, system unable to place the order.";
+                    break;
+                case ReturnStatus.InvalidInput:
+                    outputMesssage = "Invalid input, system unable to process the request.";
+                    break;
+                default:
+                case ReturnStatus.ItemNotFound:
+                    outputMesssage = "Menu item not found, system unable to place the order.";
+                    break;
+            }
+            return outputMesssage;
         }
     }
 }

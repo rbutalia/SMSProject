@@ -10,6 +10,7 @@ namespace Notifications.Services
     {
         Company GetCompanyByTextIdentifier(string textIdentifier);
         Company GetCompanyByID(int companyID);
+        decimal GetCompanyTaxRateByCompanyID(int companyID);
     }
 
     /// <summary>
@@ -33,6 +34,10 @@ namespace Notifications.Services
         public Company GetCompanyByID(int companyID)
         {
             return _repository.GetCompanyByID(companyID);
+        }
+        public decimal GetCompanyTaxRateByCompanyID(int companyID)
+        {
+            return _repository.GetCompanyByID(companyID).SalesTax;
         }
     }
 

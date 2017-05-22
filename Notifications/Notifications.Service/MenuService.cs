@@ -9,8 +9,9 @@ namespace Notifications.Services
 {
     public interface IMenuService : IService<Menu>
     {
-        string GetMenuByCompanyID(int companyID);
+        Menu GetMenuByCompanyID(int companyID);
         string GetMenuByCompanyIdentifier(string textIdentifier);
+        decimal GetMenuPriceByMenuItemID(int companyID, int menuItemID);
     }
 
     /// <summary>
@@ -25,18 +26,10 @@ namespace Notifications.Services
         {
             _repository = repository;
         }
-        public string GetMenuByCompanyID(int companyID)
+        public Menu GetMenuByCompanyID(int companyID)
         {
-            var menuBuilder = new StringBuilder("Please reply with your choice, as under:");
-            var thisMenu = _repository.GetMenuByCompanyID(companyID);
-            if (thisMenu == null) return string.Empty;
-            foreach(MenuItem item in thisMenu.MenuItems)
-            {
-                menuBuilder.AppendLine(string.Format("{0}: {1}", item.MenuID, item.ItemName));
-            }
-            return menuBuilder.ToString();
+            return _repository.GetMenuByID(companyID);
         }
-
         public string GetMenuByCompanyIdentifier(string textIdentifier)
         {
             var menuBuilder = new StringBuilder();
@@ -48,6 +41,16 @@ namespace Notifications.Services
                 menuBuilder.AppendLine(string.Format("{0}: {1}", item.MenuItemID, item.ItemName));
             }
             return menuBuilder.ToString();
+        }
+        public decimal GetMenuPriceByMenuItemID(int companyID, int menuItemID)
+        {
+            var menu = _repository.GetMenuByID(companyID);
+            foreach (var menuItem in menu.MenuItems)
+            {
+                if (menuItem.MenuItemID == menuItemID)
+                    return menuItem.Price;
+            }
+            return 0.0m;
         }
     }
 }

@@ -19,17 +19,22 @@ namespace Notifications.Entities.Mappings
             this.Property(t => t.ItemName)
                 .HasMaxLength(30);
 
+            this.Property(t => t.Price).HasPrecision(2, 2);
+
             this.Property(t => t.CreatedBy)
                 .HasMaxLength(30);
 
             this.Property(t => t.ModifiedBy)
                .HasMaxLength(30);
 
+            this.Property(t => t.Price).HasPrecision(4, 2);
+
             this.ToTable("MenuItems");
             this.Property(t => t.MenuItemID).HasColumnName("MenuItemID");
             this.Property(t => t.MenuID).HasColumnName("MenuID");
             this.Property(t => t.ItemName).HasColumnName("ItemName");
             this.Property(t => t.IsActive).HasColumnName("IsActive");
+            this.Property(t => t.Price).HasColumnName("Price");
             this.Property(t => t.CreatedBy).HasColumnName("CreatedBy");
             this.Property(t => t.CreatedDate).HasColumnName("CreatedDate");
             this.Property(t => t.ModifiedBy).HasColumnName("ModifiedBy");

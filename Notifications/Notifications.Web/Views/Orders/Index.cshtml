@@ -39,7 +39,7 @@
             @foreach (OrderDetail it in item.OrderDetails)
             {
                 <ul>
-                    <li>@it.OrderDetailID</li>
+                    <li>@it.Dish.ItemName</li>
                     <li>@it.MenuItemID</li>
                     <li>@it.Quantity</li>
                     <li>@it.UnitPrice</li>
