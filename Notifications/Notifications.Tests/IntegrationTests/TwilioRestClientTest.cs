@@ -19,7 +19,7 @@ namespace Notifications.Tests.IntegrationTests
         public void SendAsyncMessageFromTestEnvironment()
         {
             var fakeNotificationService = new NotificationService();
-            fakeNotificationService.SendMessageAsync("+17165414925", "Test message", null).Wait();
+            fakeNotificationService.SendMessageAsync("+17165414925", "Test async message", null).Wait();
         }
 
     //    private void SendSms(bool isLive)

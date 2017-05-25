@@ -51,14 +51,15 @@ namespace Notifications.Helpers
                     decimal taxRate = 1 + _companyService.GetCompanyTaxRateByCompanyID(companyID) / 100;
                     foreach (var item in items)
                     {
+                        var itemID = int.Parse(item.Trim());
                         var menu = _menuService.GetMenuByCompanyID(companyID);
-                        var price = _menuService.GetMenuPriceByMenuItemID(companyID, int.Parse(item));
+                        var price = _menuService.GetMenuPriceByMenuItemID(companyID, itemID);
                         if (price == 0.0m)
-                            return await CreateOutputMessage(ReturnStatus.ItemNotFound, int.Parse(item));
+                            return await CreateOutputMessage(ReturnStatus.ItemNotFound, itemID);
                         var itemDetail = new OrderDetail
                         {
                             OrderID = newOrder.OrderID,
-                            MenuItemID = int.Parse(item),
+                            MenuItemID = itemID,
                             UnitPrice = price,
                             Quantity = 1,
                             CreatedBy = SYS_USER,
@@ -81,7 +82,7 @@ namespace Notifications.Helpers
                     return await CreateOutputMessage(ReturnStatus.InvalidInput, null);
                 }
             }
-            catch (Exception ex) {
+            catch {
                 return await CreateOutputMessage(ReturnStatus.Failure, null);
             }
         }

@@ -11,6 +11,7 @@ using System.Data.Entity.Validation;
 using Repository.Pattern.DataContext;
 using Repository.Pattern.Repositories;
 using Repository.Pattern.Infrastructure;
+using Notifications.Repository.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Northwind.Test.IntegrationTests
@@ -178,7 +179,7 @@ namespace Northwind.Test.IntegrationTests
             var steps = new[]
             {
                 new WorkflowStep { CompanyID = newCompany.CompanyID, StepName = "Step 1", Description="Description for Step 1", RegularExpression = "^[a-zA-Z]+$", CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added},
-                new WorkflowStep { CompanyID = newCompany.CompanyID, StepName = "Step 2", Description="Description for Step 2", RegularExpression = "^([0-9]+,)*[0-9]+$", CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added}
+                new WorkflowStep { CompanyID = newCompany.CompanyID, StepName = "Step 2", Description="Description for Step 2", RegularExpression = "^([0-9 ]+,)*[0-9 ]+$", CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added}
             };
 
             var menu1 = new Menu { IsActive = true, CompanyID = newCompany.CompanyID, MenuName = "Menu For DoughZone", CreatedBy = TEST_USER, CreatedDate = DateTime.Now, ModifiedBy = TEST_USER, ModifiedDate = DateTime.Now, ObjectState = ObjectState.Added };
@@ -207,7 +208,6 @@ namespace Northwind.Test.IntegrationTests
                 {
                     newCompany.WorkFlowSteps.Add(step);
                 }
-
                 _companyRepository.InsertOrUpdateGraph(newCompany);
                 _unitOfWork.SaveChanges();
                 _unitOfWork.Commit();
@@ -235,6 +235,9 @@ namespace Northwind.Test.IntegrationTests
                 Debug.WriteLine(ex.Message);
                 TestContext.WriteLine(ex.Message);
             }
+
+
+            var company2 = _companyRepository.GetCompanyByTextIdentifier("LUNCH2");
 
             foreach (var step in newCompany.WorkFlowSteps)
             {

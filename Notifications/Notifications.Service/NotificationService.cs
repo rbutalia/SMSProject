@@ -11,7 +11,7 @@ namespace Notifications.Services
 {
     public interface INotificationService
     {
-        void SendMessage(string to, string body, List<Uri> mediaUrl);
+        MessageResource SendMessage(string to, string body, List<Uri> mediaUrl);
         Task<MessageResource> SendMessageAsync(string to, string body, List<Uri> mediaUrl);
     }
 
@@ -26,9 +26,9 @@ namespace Notifications.Services
                 TwilioClient.Init(sid, authToken);
             }
         }
-        public void SendMessage(string to, string body, List<Uri> mediaUrl)
+        public MessageResource SendMessage(string to, string body, List<Uri> mediaUrl)
         {
-            MessageResource.Create(
+            return MessageResource.Create(
                 from: new PhoneNumber(ConfigurationManager.AppSettings["Twilio_Phone_Number"]),
                 to: new PhoneNumber(to),
                 body: body,

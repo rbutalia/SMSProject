@@ -17,6 +17,7 @@ namespace Notifications.Controllers
         private readonly IMenuService _menuService;
         private readonly ICompanyService _companyService;
         private readonly IOrderService _orderService;
+        private readonly INotificationService _smsService;
 
         private const string SYS_USER = "SYSTEM";
 
@@ -25,7 +26,8 @@ namespace Notifications.Controllers
                                     IMenuService menuService,
                                     ICustomerService customerService,
                                     ICompanyService companyService,
-                                    IOrderService orderService)
+                                    IOrderService orderService,
+                                    INotificationService smsService)
         {
             _unitOfWorkAsync = unitOfWorkAsync;
             _customerService = customerService;
@@ -33,6 +35,7 @@ namespace Notifications.Controllers
             _menuService = menuService;
             _companyService = companyService;
             _orderService = orderService;
+            _smsService = smsService;
         }
 
         private const string _companyTextIdentifier = "LUNCH";
@@ -44,49 +47,60 @@ namespace Notifications.Controllers
             return View(orders);
         }
 
-        public async Task Complete(int id)
+        public ActionResult Complete(int id)
         {
             try
             {
-                var thisOrder = await _orderService.FindAsync(id);
+                var thisOrder = _orderService.GetOrderByOrderID(id);
+                var confimationMessage = string.Format("Your order {0} is ready for pickup.", thisOrder.OrderID);
                 thisOrder.Status = OrderStatus.Completed;
                 thisOrder.ModifiedBy = SYS_USER;
                 thisOrder.ModifiedDate = DateTime.Now;
                 thisOrder.ObjectState = ObjectState.Modified;
                 _orderService.Update(thisOrder);
                 _unitOfWorkAsync.SaveChanges();
+                _smsService.SendMessage(thisOrder.Customer.Phone, confimationMessage, null);
+                
             }
-            catch { }
+            catch(Exception ex)
+            {
+                var som = ex.Message;
+            }
+            return RedirectToAction("Index");
         }
 
-        public async Task Cancel(int id)
+        public ActionResult Cancel(int id)
         {
             try
             {
-                var thisOrder = await _orderService.FindAsync(id);
+                var thisOrder = _orderService.Find(id);
                 thisOrder.Status = OrderStatus.Cancelled;
                 thisOrder.ModifiedBy = SYS_USER;
                 thisOrder.ModifiedDate = DateTime.Now;
                 thisOrder.ObjectState = ObjectState.Modified;
                 _orderService.Update(thisOrder);
                 _unitOfWorkAsync.SaveChanges();
+                return RedirectToAction("Index");
             }
             catch { }
+            return null;
         }
 
-        public async Task OnHold(int id)
+        public ActionResult OnHold(int id)
         {
             try
             {
-                var thisOrder = await _orderService.FindAsync(id);
+                var thisOrder = _orderService.Find(id);
                 thisOrder.Status = OrderStatus.OnHold;
                 thisOrder.ModifiedBy = SYS_USER;
                 thisOrder.ModifiedDate = DateTime.Now;
                 thisOrder.ObjectState = ObjectState.Modified;
                 _orderService.Update(thisOrder);
                 _unitOfWorkAsync.SaveChanges();
+                return RedirectToAction("Index");
             }
             catch { }
+            return null;
         }
     }
 }

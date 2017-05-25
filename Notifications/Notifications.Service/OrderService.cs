@@ -9,7 +9,7 @@ namespace Notifications.Services
 {
     public interface IOrderService : IService<Order>
     {
-        //Order GetOrderByOrderID(int orderID);
+        Order GetOrderByOrderID(int orderID);
         IEnumerable<Order> GetOrdersByCustomerID(int customerID);
         Order GetMostRecentOrderByCustomerID(int customerID);
         IEnumerable<Order> GetOrdersByCompanyID(int companyID);
@@ -22,6 +22,10 @@ namespace Notifications.Services
         public OrderService(IRepositoryAsync<Order> repository) : base(repository)
         {
             _repository = repository;
+        }
+        public Order GetOrderByOrderID(int orderID)
+        {
+            return _repository.GetOrderByOrderID(orderID);
         }
         public IEnumerable<Order> GetOrdersByCustomerID(int customerID)
         {

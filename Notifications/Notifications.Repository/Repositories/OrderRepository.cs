@@ -8,6 +8,13 @@ namespace Notifications.Repository.Repositories
 {
     public static class OrderRepository
     {
+        public static Order GetOrderByOrderID(this IRepositoryAsync<Order> repository, int orderID)
+        {
+            return repository
+                     .Query(x => x.OrderID == orderID)
+                     .Include(x => x.Customer)
+                     .Select().SingleOrDefault();
+        }
         public static IEnumerable<Order> GetOrdersByCustomerID(this IRepositoryAsync<Order> repository, int customerID)
         {
             return repository

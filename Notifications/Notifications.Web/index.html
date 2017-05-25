@@ -1,0 +1,22 @@
+﻿
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <!--<script data-require="angular.js@1.4.x" src="https://code.angularjs.org/1.5.6/angular.min.js" data-semver="1.5.6"></script>-->
+        <script data-require="ui-router@*" data-semver="1.0.0-alpha.5" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.0-alpha.5/angular-ui-router.js"></script>
+
+        <script src="/Scripts/angular.js"></script>
+        <script src="/Scripts/app/app.js"></script>
+        <script src="/Scripts/app/orders/orders.component.js"></script>
+        <script src="/Scripts/app/customers/customers.component.js"></script>
+        <script src="/Scripts/app/company/company.component.js"></script>
+    </head>
+    <body ng-app="smsApp">
+        <div class="navbar">
+            <a href="orders">Orders</a>
+            <a href="company">Company</a>
+        </div>
+        <div ui-view></div>
+    </body>
+</html>

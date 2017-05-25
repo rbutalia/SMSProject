@@ -1,5 +1,7 @@
 ﻿
 using System;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using System.Threading.Tasks;
 using Notifications.Services;
@@ -40,7 +42,17 @@ namespace Notifications.Controllers.api
         // GET api/<controller>
         public IEnumerable<Order> Get()
         {
-            int companyId = _companyService.GetCompanyByTextIdentifier(_companyTextIdentifier).CompanyID;
+            var thisCompany = _companyService.GetCompanyByTextIdentifier(_companyTextIdentifier);
+            if (thisCompany == null)
+            {
+                var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent(string.Format("Company not found for identifier {0}", _companyTextIdentifier)),
+                    ReasonPhrase = "Company not found"
+                };
+                throw new HttpResponseException(response);
+            }
+            var companyId = thisCompany.CompanyID;
             var orders = _orderService.GetOrdersByCompanyID(companyId);
             return orders;
         }
@@ -62,7 +74,16 @@ namespace Notifications.Controllers.api
             try
             {
                 var thisOrder = _orderService.Find(id);
-                if(value == "Complete")
+                if (thisOrder == null)
+                {
+                    var response = new HttpResponseMessage(HttpStatusCode.NotFound)
+                    {
+                        Content = new StringContent(string.Format("OrderID {0} not found.", id)),
+                        ReasonPhrase = "Order not found"
+                    };
+                    throw new HttpResponseException(response);
+                }
+                if (value == "Complete")
                     thisOrder.Status = OrderStatus.Completed;
                 else if(value == "Cancel")
                     thisOrder.Status = OrderStatus.Cancelled;
